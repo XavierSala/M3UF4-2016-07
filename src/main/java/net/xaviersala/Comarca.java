@@ -19,72 +19,6 @@ public class Comarca {
 	public Comarca(GRect rectangle, GImage castell, boolean teCastell) {
 		
 		this.rectangle = rectangle;
-<<<<<<< HEAD
-		this.rectangle.setFilled(true);
-		this.rectangle.setFillColor(Color.WHITE);
-		
-		this.imatgeCastell = castell;
-		this.castell = teCastell;		
-		
-		this.propietari = null;
-	}
-	
-	public Comte deQuinCompte() {
-		if (propietari == null) {
-			return null;
-		}
-		else {
-			return propietari.getComte();
-		}
-	}
-
-	// Diu si el rectangle del cavaller toca amb la casella...
-	public boolean xocaAmb(GRectangle cavallerRect) {
-		return rectangle.getBounds().intersects(cavallerRect);
-	}
-
-	/**
-	 * 
-	 * @return Obtenir el cavaller que domina la casella. 
-	 */
-	public Cavaller getCavaller() {
-		return propietari;
-	}
-
-	/**
-	 * El cavaller ara domina la comarca.
-	 * 
-	 * @param cavaller Cavaller dominador
-	 */
-	public void setCavaller(Cavaller cavaller) {
-		this.propietari = cavaller;		
-	}
-	
-	/**
-	 * @return Determina si la casella és un castell o no.
-	 */
-	public boolean isCastell() {
-		return castell;
-	}
-
-	/**
-	 * Converteix la casella en un castell.
-	 */
-	public void setCastell() {
-		castell = true;		
-		// TODO: Eliminar-lo quan hi hagi imatge
-		rectangle.setFillColor(Color.BLACK);
-		
-	}
-
-	/**
-	 * Mira si el cavaller està ocupant alguna casella i retorna els cavallers
-	 * usats.
-	 * 
-	 * @param cavaller cavaller que conquereix
-	 * @return número de castells conquerits
-	 */
-=======
 		rectangle.setFilled(true);
 		rectangle.setFillColor(Color.WHITE);
 		
@@ -122,9 +56,10 @@ public class Comarca {
 
 	public void setCastell() {
 		castell = true;		
+		// TODO: Eliminar quan hi hagi imatges
+		rectangle.setFillColor(Color.BLACK);
 	}
 
->>>>>>> branch 'master' of git@github.com:XavierSala/M3UF4-2016-07.git
 	public boolean ocupadaPer(Cavaller cavaller) {
 		if (cavaller == propietari) {
 			return false;

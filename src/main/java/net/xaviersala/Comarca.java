@@ -19,6 +19,7 @@ public class Comarca {
 	public Comarca(GRect rectangle, GImage castell, boolean teCastell) {
 		
 		this.rectangle = rectangle;
+<<<<<<< HEAD
 		this.rectangle.setFilled(true);
 		this.rectangle.setFillColor(Color.WHITE);
 		
@@ -83,6 +84,47 @@ public class Comarca {
 	 * @param cavaller cavaller que conquereix
 	 * @return número de castells conquerits
 	 */
+=======
+		rectangle.setFilled(true);
+		rectangle.setFillColor(Color.WHITE);
+		
+		this.imatgeCastell = castell;
+		this.castell = teCastell;
+		
+		this.propietari = null;
+	}
+	
+	public Comte deQuinCompte() {
+		if (propietari == null) {
+			return null;
+		}
+		else {
+			return propietari.getComte();
+		}
+	}
+
+	// Diu si el rectangle del cavaller toca amb la casella...
+	public boolean xocaAmb(GRectangle cavallerRect) {
+		return rectangle.getBounds().intersects(cavallerRect);
+	}
+
+	public Cavaller getCavaller() {
+		return propietari;
+	}
+
+	public void setCavaller(Cavaller cavaller) {
+		this.propietari = cavaller;		
+	}
+	
+	public boolean isCastell() {
+		return castell;
+	}
+
+	public void setCastell() {
+		castell = true;		
+	}
+
+>>>>>>> branch 'master' of git@github.com:XavierSala/M3UF4-2016-07.git
 	public boolean ocupadaPer(Cavaller cavaller) {
 		if (cavaller == propietari) {
 			return false;

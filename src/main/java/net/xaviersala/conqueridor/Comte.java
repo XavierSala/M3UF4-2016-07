@@ -3,24 +3,23 @@ package net.xaviersala.conqueridor;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
 import acm.graphics.GImage;
-import acm.graphics.GPoint;
+import acm.graphics.GRectangle;
+import acm.util.RandomGenerator;
 
 public class Comte {
-	GImage cara;
-	List<Cavaller> cavallers;
-	Color color;
-	GPoint casa; 
+	private String nom;
+	private GImage cara;
+	private List<Cavaller> cavallers;
+	private Color color;
+	private GRectangle casa; 
+	private RandomGenerator rgen = RandomGenerator.getInstance();
 	
-	public Comte(GImage imatge, GPoint casa) {
-		Random aleatori = new Random();
+	public Comte(String nom, GImage imatge) {
+		this.nom = nom;
 		this.cara = imatge;
 		cavallers = new ArrayList<Cavaller>();
-		color = new Color(aleatori.nextInt(256), aleatori.nextInt(256), aleatori.nextInt(256)); 
-		
-		this.casa = casa;
+		color = rgen.nextColor(); 				
 	}
 	
 	public void afegirCavaller(Cavaller cavaller) {
@@ -30,6 +29,7 @@ public class Comte {
 	public List<Cavaller> getCavallers() {
 		return cavallers;
 	}
+	
 	public void setCavallers(List<Cavaller> cavallers) {
 		this.cavallers = cavallers;
 	}
@@ -46,13 +46,30 @@ public class Comte {
 		return color;
 	}
 
-	public void setCasa(GPoint lloc) {
+	public void setCasa(GRectangle lloc) {
 		casa = lloc;		
 	}
 
-	public GPoint getCasa() {
+	public GRectangle getCasa() {
 		return casa;
 	}
+
+	/**
+	 * Col·loca els cavallers al castell inicial
+	 */
+	public void posaElsCavallersACasa() {
+		for(Cavaller cavaller: cavallers) {
+			cavaller.setPosicio(casa);		
+			cavaller.setDesti(casa);
+		}		
+	}
+
+	@Override
+	public String toString() {
+		return "Comte " + nom + " [" + cavallers + "]";
+	}
+
+
 	
 	
 

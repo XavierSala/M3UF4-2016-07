@@ -6,8 +6,8 @@ import java.util.Random;
 
 import acm.graphics.GImage;
 import acm.graphics.GLabel;
-import acm.graphics.GPoint;
 import acm.graphics.GRect;
+
 import acm.program.GraphicsProgram;
 import net.xaviersala.conqueridor.Cavaller;
 import net.xaviersala.conqueridor.Comte;
@@ -19,6 +19,10 @@ import net.xaviersala.conqueridor.Comte;
  */
 public class App extends GraphicsProgram
 {
+	private static final int QUANTITAT_DE_CASTELLS = 6;
+	private static final String[] NOMS_DELS_COMTES = { "Hug", "Ramon", "Bernat" };
+	private static final int CAVALLERS_DEL_COMTE = 2;
+
 	/**
     *
     */
@@ -30,9 +34,7 @@ public class App extends GraphicsProgram
    private static final int AMPLEMAPA = 25;
    private static final int ALTMAPA = 15;
    
-   private static final String[] NOMS = { "Hug", "Ramon", "Bernat" };
-
-
+   
     Mapa mapa;
     /**
      * Programa principal...
@@ -41,30 +43,38 @@ public class App extends GraphicsProgram
     public final void run() {
        setSize(AMPLADAPANTALLA, ALTURAPANTALLA);
        
-       mapa = new Mapa("Quadrilàndia", generarCaselles(5, 5));
-       
+       mapa = new Mapa("Quadrilàndia", crearComarques(5, 5));       
        mapa.afegirComtes(crearComtes());
        
        clicaPerComencar();
+       
+       try {
+		mapa.start();
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
     }
 
-
-
-
-
+/**
+ * Crea la llista de comptes amb els seus cavallers.
+ * 
+ * @return llista de comptes
+ */
 private List<Comte> crearComtes() {
 		List<Comte> comptes = new ArrayList<>();
-		for(String nom: NOMS) {
-			// GImage imatgeCompte = new GImage(nom + ".png");
-			GPoint lloc = mapa.getRandomCastell();
-			Comte comte = new Comte(null, lloc);			
+		for(String nom: NOMS_DELS_COMTES) {
 			
-			for (int i=0; i<2; i++) {
-				GImage imatgeCavaller = new GImage("cavaller.png");
-				imatgeCavaller.setLocation(lloc);
+			// GImage imatgeCompte = new GImage(nom + ".png");			
+			Comte comte = new Comte(nom, null);			
+			
+			for (int i=0; i<CAVALLERS_DEL_COMTE; i++) {
+				GImage imatgeCavaller = new GImage("cavaller.png");				
 				add(imatgeCavaller);
-				comte.afegirCavaller(new Cavaller(nom + i, imatgeCavaller, comte));
+				comte.afegirCavaller(new Cavaller(nom + i, imatgeCavaller, comte));				
 			}
+			
+			comptes.add(comte);
 		}
 		return comptes;
 	}
@@ -73,7 +83,7 @@ private List<Comte> crearComtes() {
 
 
 
-private List<Comarca> generarCaselles(int xInicial, int yInicial) {
+private List<Comarca> crearComarques(int xInicial, int yInicial) {
 	
 		Random aleatori = new Random(); 
 		
@@ -94,10 +104,12 @@ private List<Comarca> generarCaselles(int xInicial, int yInicial) {
 			posx = xInicial;
 		}
 		
-		
-		for(int i=0; i<6; i++) {
+		// Crear castells en el mapa
+		for(int i=0; i< QUANTITAT_DE_CASTELLS; i++) {
 			int quina = aleatori.nextInt(comarques.size());
-			comarques.get(quina).setCastell();
+			GImage imatge = new GImage("castell.png");
+			add(imatge);
+			comarques.get(quina).setCastell(imatge);
 		}
 		
 		

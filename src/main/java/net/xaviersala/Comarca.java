@@ -3,7 +3,6 @@ package net.xaviersala;
 import java.awt.Color;
 
 import acm.graphics.GImage;
-import acm.graphics.GPoint;
 import acm.graphics.GRect;
 import acm.graphics.GRectangle;
 import net.xaviersala.conqueridor.Cavaller;
@@ -28,7 +27,7 @@ public class Comarca {
 		this.propietari = null;
 	}
 	
-	public Comte deQuinCompte() {
+	public Comte deQuinComte() {
 		if (propietari == null) {
 			return null;
 		}
@@ -54,10 +53,10 @@ public class Comarca {
 		return castell;
 	}
 
-	public void setCastell() {
+	public void setCastell(GImage gImage) {
 		castell = true;		
-		// TODO: Eliminar quan hi hagi imatges
-		rectangle.setFillColor(Color.BLACK);
+		imatgeCastell = gImage;
+		imatgeCastell.setBounds(rectangle.getBounds());
 	}
 
 	public boolean ocupadaPer(Cavaller cavaller) {
@@ -78,9 +77,26 @@ public class Comarca {
 	public boolean isDelCavaller(Cavaller cavaller) {		
 		return (propietari == cavaller);
 	}
+	
+	public boolean isDelComte(Comte comte) {
+		if (propietari == null) {
+			return false;
+		}
+		
+		return (propietari.getComte() == comte);
+	}
 
-	public GPoint getPosicio() {
-		return rectangle.getLocation();
+	public GRectangle getPosicio() {
+		return rectangle.getBounds();
+	}
+
+	public boolean isOcupada() {
+		return (propietari != null);
+	}
+
+	@Override
+	public String toString() {
+		return "[ " + castell + "]";
 	}
 
 

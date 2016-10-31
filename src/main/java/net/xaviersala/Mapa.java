@@ -104,8 +104,8 @@ public class Mapa {
 	 */
 	public int castellsSotaControlDelComte(Comte comte) {
 		int numCastells = 0;
-		for (Comarca comarca : castells) {
-			if (comarca.getCavaller().getComte() == comte) {
+		for (Comarca castell : castells) {
+			if (castell != null && castell.isDelComte(comte)) {
 				numCastells++;
 			}
 		}
@@ -180,10 +180,16 @@ public class Mapa {
 	 * @throws InterruptedException
 	 */
 	public void start() throws InterruptedException {
-		while (true) {
+		boolean acabar = false;
+		
+		while (!acabar) {
 			for (Comte comte : comtes) {
 
 				moureCavallersDelCompte(comte);
+				if (castellsSotaControlDelComte(comte) == castells.size()) {
+					acabar = true;
+					break;
+				}
 			}
 			Thread.sleep(200);
 		}
@@ -236,8 +242,15 @@ public class Mapa {
 		LOG.info("BATALLA!");
 		int primer = comarquesSotaControlDelCavaller(cavallerActual);
 		int segon = comarquesSotaControlDelCavaller(cavaller);
-
-		int resultat = aleatori.nextInt(primer + segon);
+		
+		int suma = primer + segon;
+		
+		// Peta quan hi ha batalla i no tenen territoris
+		if(suma == 0) { 
+			suma++;
+		}
+ 
+		int resultat = aleatori.nextInt(suma);
 
 		if (resultat > primer) {
 			cavallerActual.setMort();

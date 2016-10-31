@@ -21,6 +21,7 @@ public class Cavaller {
 	private GRectangle desti;
 	private double velocitat;
 	private double angle;
+	private boolean mort;
 	
 	static final Logger LOG = Logger.getLogger("Cavaller");
 	
@@ -34,6 +35,7 @@ public class Cavaller {
 		color = comte.getColor();		
 		castellsConquerits = 0;
 		vida = VIDA;
+		mort = false;
 		
 		velocitat = VELOCITAT;
 		angle = 0;
@@ -84,10 +86,20 @@ public class Cavaller {
 		this.vida = vida;
 	}
 
+	/**
+	 * Posar el cavaller en la posició que s'especifica.
+	 * 
+	 * @param casa casella on ha d'anar
+	 */
 	public void setPosicio(GRectangle casa) {
 		imatge.setLocation(casa.getX(), casa.getY());
 	}
 	
+	/**
+	 * Obtenir la posició del cavaller. 
+	 * 
+	 * @return posició actual del cavaller
+	 */
 	public GRectangle getPosicio() {
 		return imatge.getBounds();
 	}
@@ -122,10 +134,26 @@ public class Cavaller {
 	}
 
 
+	public boolean isMort() {		
+		return mort;
+	}
+
+	public void setMort() {
+		imatge.setVisible(false);
+		mort = true;
+	}
+	
 	@Override
 	public String toString() {
 		return "Cavaller " + nom + ", (" + castellsConquerits + "," + vida + ")";
 	}
+
+
+	public boolean estaAProp(Cavaller altreCavaller) {
+		return imatge.getBounds().intersects(altreCavaller.getPosicio());
+	}
+
+
 	
 	
 }

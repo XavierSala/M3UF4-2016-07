@@ -68,7 +68,7 @@ public class Comarca {
 			// Canvia el propietari
 			propietari = cavaller;
 			rectangle.setFillColor(propietari.getColor());
-			return (castell);
+			return true;
 		}
 				
 		return false;

@@ -50,7 +50,7 @@ public class Mapa {
                 castells.add(comarca);
             }
         }
-        comtes = new ArrayList<Comte>();
+        comtes = new ArrayList<>();
 
     }
 
@@ -97,11 +97,10 @@ public class Mapa {
         int castellsOcupats = 0;
 
         for (Comarca comarca : comarques) {
-            if (comarca.ocupadaPer(cavaller)) {
-                if (comarca.isCastell()) {
+            if (comarca.ocupadaPer(cavaller) && comarca.isCastell()) {
                     cavaller.addCastellConquerit();
                     LOG.info(cavaller + " ... ha ocupat un castell ");
-                }
+
             }
         }
         return castellsOcupats;
@@ -132,9 +131,7 @@ public class Mapa {
     private int getRandomCastell() {
 
         if (!castells.isEmpty()) {
-
-            int castellTriat = aleatori.nextInt(castells.size());
-            return castellTriat;
+            return aleatori.nextInt(castells.size());
         }
         return -1;
     }
@@ -159,7 +156,7 @@ public class Mapa {
             castell = castells.get(quinCastell);
         }
 
-        LOG.fine("CASTELL " + quinCastell + " lliure!");
+        LOG.fine("castell " + quinCastell + " lliure!");
         return castell.getPosicio();
     }
 
@@ -184,7 +181,7 @@ public class Mapa {
             castell = castells.get(quinCastell);
         }
 
-        LOG.info("Atacar el CASTELL " + quinCastell);
+        LOG.info("Atacar el castell " + quinCastell);
         return castell.getPosicio();
     }
 
@@ -245,12 +242,22 @@ public class Mapa {
     private void comprovarCavallersEnemics(Cavaller cavallerActual) {
         for (Comte comte : comtes) {
             if (comte != cavallerActual.getComte()) {
-                for (Cavaller cavaller : comte.getCavallers()) {
-                    if (!cavaller.isMort() && cavaller.estaAProp(cavallerActual)) {
-                        // Matar-ne un
-                        batalla(cavallerActual, cavaller);
-                    }
-                }
+                comprovaSiHiHaUnaBatalla(cavallerActual, comte);
+            }
+        }
+    }
+
+    /**
+     * Comprova si el cavaller té una batalla amb un del compte especificat.
+     *
+     * @param cavallerActual cavaller actual
+     * @param comte compte del que es volen comprovar els cavallers
+     */
+    private void comprovaSiHiHaUnaBatalla(Cavaller cavallerActual, Comte comte) {
+        for (Cavaller cavaller : comte.getCavallers()) {
+            if (!cavaller.isMort() && cavaller.estaAProp(cavallerActual)) {
+                // Matar-ne un
+                batalla(cavallerActual, cavaller);
             }
         }
     }
@@ -268,7 +275,7 @@ public class Mapa {
         int comarquesPrimer = comarquesSotaControlDelCavaller(primerCavaller);
         int comarquesSegon = comarquesSotaControlDelCavaller(segonCavaller);
 
-        LOG.info("BATALLA!" + primerCavaller + ":" + comarquesPrimer
+        LOG.info("** BATALLA!" + primerCavaller + ":" + comarquesPrimer
                 + " vs " + segonCavaller + ":" + comarquesSegon);
 
         int suma = comarquesPrimer + comarquesSegon;
@@ -281,8 +288,10 @@ public class Mapa {
         int resultat = aleatori.nextInt(suma);
 
         if (resultat > comarquesPrimer) {
+            LOG.info("***** Victòria del " + segonCavaller);
             primerCavaller.setMort();
         } else {
+            LOG.info("***** Victòria del " + primerCavaller);
             segonCavaller.setMort();
         }
     }

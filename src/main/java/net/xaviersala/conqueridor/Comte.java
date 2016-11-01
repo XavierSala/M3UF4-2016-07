@@ -29,7 +29,7 @@ public class Comte {
     public Comte(String nom, GImage imatge) {
         this.nom = nom;
         this.cara = imatge;
-        cavallers = new ArrayList<Cavaller>();
+        cavallers = new ArrayList<>();
         color = rgen.nextColor();
     }
 

@@ -126,7 +126,7 @@ public class Comarca {
      * @return diu si el cavaller domina aquesta comarca o no
      */
     public boolean isDelCavaller(Cavaller cavaller) {
-        return (propietari == cavaller);
+        return propietari == cavaller;
     }
 
     /**
@@ -138,7 +138,7 @@ public class Comarca {
             return false;
         }
 
-        return (propietari.getComte() == comte);
+        return propietari.getComte() == comte;
     }
 
     /**
@@ -152,7 +152,7 @@ public class Comarca {
      * @return Diu si la comarca està ocupada o no
      */
     public boolean isOcupada() {
-        return (propietari != null);
+        return propietari != null;
     }
 
     @Override

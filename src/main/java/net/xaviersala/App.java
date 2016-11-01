@@ -3,6 +3,7 @@ package net.xaviersala;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import acm.graphics.GImage;
 import acm.graphics.GLabel;
@@ -23,6 +24,7 @@ import net.xaviersala.conqueridor.Comte;
  */
 public class App extends GraphicsProgram {
 
+    static final Logger LOG = Logger.getLogger("App");
 
     private static final long serialVersionUID = 1299094805237490891L;
     private static final int AMPLADAPANTALLA = 1024;
@@ -41,9 +43,9 @@ public class App extends GraphicsProgram {
      * Característiques dels comtes.
      */
     private static final int CAVALLERS_DEL_COMTE = 2;
-    private static final String[] NOMS_DELS_COMTES = { "Hug", "Ramon", "Bernat", "Marimon" };
+    private static final String[] NOMS_DELS_COMTES = { "Hug", "Ramon", "Bernat", "Marimon", "Berenguer" };
 
-    Mapa mapa;
+
 
     /**
      * Programa principal...
@@ -52,6 +54,7 @@ public class App extends GraphicsProgram {
     public final void run() {
         setSize(AMPLADAPANTALLA, ALTURAPANTALLA);
 
+        Mapa mapa;
         mapa = new Mapa("Quadrilàndia", crearComarques(5, 5, CASELLESAMPLE, CASELLESALT));
         mapa.afegirComtes(crearComtes());
 
@@ -60,7 +63,7 @@ public class App extends GraphicsProgram {
         try {
             mapa.start();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+             LOG.severe(e.getMessage());
         }
     }
 
@@ -105,7 +108,7 @@ public class App extends GraphicsProgram {
 
         Random aleatori = new Random();
 
-        List<Comarca> comarques = new ArrayList<Comarca>(xInicial * yInicial);
+        List<Comarca> comarques = new ArrayList<>(xInicial * yInicial);
 
         int posx = xInicial;
         int posy = yInicial;

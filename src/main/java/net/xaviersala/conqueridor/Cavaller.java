@@ -12,8 +12,8 @@ import acm.graphics.GRectangle;
  */
 public class Cavaller {
 
-    private static final int VIDA = 1000;
-    private static final int VELOCITAT = 5;
+    private static final int VIDA_INICIAL = 1000;
+    private static final int VELOCITAT_INICIAL = 5;
     private String nom;
     private GImage imatge;
     private Color color;
@@ -42,10 +42,10 @@ public class Cavaller {
 
         color = comte.getColor();
         castellsConquerits = 0;
-        vida = VIDA;
+        vida = VIDA_INICIAL;
         mort = false;
 
-        velocitat = VELOCITAT;
+        velocitat = VELOCITAT_INICIAL;
         angle = 0;
     }
 

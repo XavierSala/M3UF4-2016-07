@@ -19,11 +19,15 @@ import net.xaviersala.conqueridor.Comte;
  */
 public class App extends GraphicsProgram
 {
-	private static final int QUANTITAT_DE_CASTELLS = 6;
-	private static final String[] NOMS_DELS_COMTES = { "Hug", "Ramon", "Bernat" };
-	private static final int CAVALLERS_DEL_COMTE = 2;
+    private static final int QUANTITAT_DE_CASTELLS = 12;
 
-	/**
+    private static final int CAVALLERS_DEL_COMTE = 2;
+    private static final String[] NOMS_DELS_COMTES = {
+            "Hug", "Ramon",
+            "Bernat", "Marimon"
+            };
+
+    /**
     *
     */
    private static final long serialVersionUID = 1299094805237490891L;
@@ -33,8 +37,8 @@ public class App extends GraphicsProgram
    private static final double ALT = 40;
    private static final int AMPLEMAPA = 25;
    private static final int ALTMAPA = 15;
-   
-   
+
+
     Mapa mapa;
     /**
      * Programa principal...
@@ -42,82 +46,78 @@ public class App extends GraphicsProgram
     @Override
     public final void run() {
        setSize(AMPLADAPANTALLA, ALTURAPANTALLA);
-       
-       mapa = new Mapa("Quadrilàndia", crearComarques(5, 5));       
+
+       mapa = new Mapa("Quadrilàndia", crearComarques(5, 5));
        mapa.afegirComtes(crearComtes());
-       
+
        clicaPerComencar();
-       
+
        try {
-		mapa.start();
-	} catch (InterruptedException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+        mapa.start();
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
     }
 
 /**
  * Crea la llista de comptes amb els seus cavallers.
- * 
+ *
  * @return llista de comptes
  */
 private List<Comte> crearComtes() {
-		List<Comte> comptes = new ArrayList<>();
-		for(String nom: NOMS_DELS_COMTES) {
-			
-			// GImage imatgeCompte = new GImage(nom + ".png");			
-			Comte comte = new Comte(nom, null);			
-			
-			for (int i=0; i<CAVALLERS_DEL_COMTE; i++) {
-				GImage imatgeCavaller = new GImage("cavaller.png");				
-				add(imatgeCavaller);
-				comte.afegirCavaller(new Cavaller(nom + i, imatgeCavaller, comte));				
-			}
-			
-			comptes.add(comte);
-		}
-		return comptes;
-	}
+        List<Comte> comptes = new ArrayList<>();
+        for(String nom: NOMS_DELS_COMTES) {
+
+            // GImage imatgeCompte = new GImage(nom + ".png");
+            Comte comte = new Comte(nom, null);
+
+            for (int i=0; i<CAVALLERS_DEL_COMTE; i++) {
+                GImage imatgeCavaller = new GImage("cavaller.png");
+                add(imatgeCavaller);
+                comte.afegirCavaller(new Cavaller(nom + i, imatgeCavaller, comte));
+            }
+
+            comptes.add(comte);
+        }
+        return comptes;
+    }
 
 
 
 
 
 private List<Comarca> crearComarques(int xInicial, int yInicial) {
-	
-		Random aleatori = new Random(); 
-		
-		List<Comarca> comarques = new ArrayList<Comarca>(xInicial*yInicial);
 
-		int posx = xInicial;
-		int posy = yInicial;
+        Random aleatori = new Random();
 
-		for(int i=0; i < ALTMAPA; i++) {
-			for(int j=0; j < AMPLEMAPA; j++) {
-				GRect posicio = new GRect(posx, posy, AMPLE, ALT);
-				add(posicio);
-				Comarca comarca = new Comarca(posicio, null, false);
-				comarques.add(comarca);
-				posx += AMPLE;
-			}			
-			posy += ALT;
-			posx = xInicial;
-		}
-		
-		// Crear castells en el mapa
-		for(int i=0; i< QUANTITAT_DE_CASTELLS; i++) {
-			int quina = aleatori.nextInt(comarques.size());
-			GImage imatge = new GImage("castell.png");
-			add(imatge);
-			comarques.get(quina).setCastell(imatge);
-		}
-		
-		
-		return comarques;
-	}
+        List<Comarca> comarques = new ArrayList<Comarca>(xInicial*yInicial);
+
+        int posx = xInicial;
+        int posy = yInicial;
+
+        for(int i=0; i < ALTMAPA; i++) {
+            for(int j=0; j < AMPLEMAPA; j++) {
+                GRect posicio = new GRect(posx, posy, AMPLE, ALT);
+                add(posicio);
+                Comarca comarca = new Comarca(posicio, null, false);
+                comarques.add(comarca);
+                posx += AMPLE;
+            }
+            posy += ALT;
+            posx = xInicial;
+        }
+
+        // Crear castells en el mapa
+        for(int i=0; i< QUANTITAT_DE_CASTELLS; i++) {
+            int quina = aleatori.nextInt(comarques.size());
+            GImage imatge = new GImage("castell.png");
+            add(imatge);
+            comarques.get(quina).setCastell(imatge);
+        }
 
 
-
+        return comarques;
+    }
 
 
 /**

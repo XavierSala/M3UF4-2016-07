@@ -11,295 +11,314 @@ import net.xaviersala.conqueridor.Comte;
 
 public class Mapa {
 
-	static final Logger LOG = Logger.getLogger("Mapa");
+    static final Logger LOG = Logger.getLogger("Mapa");
 
-	private Random aleatori = new Random();
+    private Random aleatori = new Random();
 
-	private String nom;
-	private List<Comarca> comarques;
-	private List<Comarca> castells;
-	private List<Comte> comtes;
+    private String nom;
+    private List<Comarca> comarques;
+    private List<Comarca> castells;
+    private List<Comte> comtes;
 
-	private GRectangle rectanglePais;
+    private GRectangle rectanglePais;
 
-	/**
-	 * Crea un mapa a partir de les caselles que se li han especificat.
-	 * 
-	 * @param nom
-	 *            Nom de la comarca
-	 * @param comarques
-	 *            comarques
-	 */
-	public Mapa(String nom, List<Comarca> comarques) {
-		this.nom = nom;
-		this.comarques = comarques;
-		castells = new ArrayList<>();
+    /**
+     * Crea un mapa a partir de les caselles que se li han especificat.
+     *
+     * @param nom
+     *            Nom de la comarca
+     * @param comarques
+     *            comarques
+     */
+    public Mapa(String nom, List<Comarca> comarques) {
+        this.nom = nom;
+        this.comarques = comarques;
+        castells = new ArrayList<>();
 
-		rectanglePais = new GRectangle(comarques.get(0).getPosicio());
+        rectanglePais = new GRectangle(comarques.get(0).getPosicio());
 
-		for (Comarca comarca : comarques) {
-			rectanglePais = rectanglePais.union(comarca.getPosicio());
-			if (comarca.isCastell()) {
-				castells.add(comarca);
-			}
-		}
-		comtes = new ArrayList<Comte>();
+        for (Comarca comarca : comarques) {
+            rectanglePais = rectanglePais.union(comarca.getPosicio());
+            if (comarca.isCastell()) {
+                castells.add(comarca);
+            }
+        }
+        comtes = new ArrayList<Comte>();
 
-	}
+    }
 
-	/**
-	 * Afegir els comptes al mapa.
-	 * 
-	 * @param comtes
-	 *            llista amb els comptes que volen ser el rei
-	 */
-	public void afegirComtes(List<Comte> comtes) {
-		this.comtes = comtes;
+    /**
+     * Afegir els comtes al mapa.
+     *
+     * @param comtes
+     *            llista amb els comtes que volen ser el rei
+     */
+    public void afegirComtes(List<Comte> comtes) {
+        this.comtes = comtes;
 
-		for (Comte comte : this.comtes) {
-			LOG.info("Afegit el compte" + comte);
-			GRectangle casa = getRandomCastellNoOcupat();
-			comte.setCasa(casa);
-			comte.posaElsCavallersACasa();
-			ferConquestesDelCompte(comte);
-		}
-	}
+        for (Comte comte : this.comtes) {
+            LOG.info("Afegit el comte" + comte);
+            GRectangle casa = getRandomCastellNoOcupat();
+            comte.setCasa(casa);
+            comte.posaElsCavallersACasa();
+            ferConquestesDelComte(comte);
+        }
+    }
 
-	private void ferConquestesDelCompte(Comte comte) {
-		for (Cavaller cavaller : comte.getCavallers()) {
-			if (!cavaller.isMort()) {
-				cavallerConquereix(cavaller);
-			}
-		}
-	}
+    private void ferConquestesDelComte(Comte comte) {
+        for (Cavaller cavaller : comte.getCavallers()) {
+            if (!cavaller.isMort()) {
+                cavallerConquereix(cavaller);
+            }
+        }
+    }
 
-	/**
-	 * El cavaller s'ha mogut i s'ha de mirar si conquereix noves comarques o
-	 * no. A més pot ser que conquereixi castells
-	 * 
-	 * @param cavaller
-	 *            cavaller conqueridor
-	 * @return Número de castells conquerits en aquesta passada
-	 */
-	public int cavallerConquereix(Cavaller cavaller) {
-		int castellsOcupats = 0;
+    /**
+     * El cavaller s'ha mogut i s'ha de mirar si conquereix noves comarques o
+     * no. A més pot ser que conquereixi castells
+     *
+     * @param cavaller
+     *            cavaller conqueridor
+     * @return Número de castells conquerits en aquesta passada
+     */
+    public int cavallerConquereix(Cavaller cavaller) {
+        int castellsOcupats = 0;
 
-		for (Comarca comarca : comarques) {
-			if (comarca.ocupadaPer(cavaller)) {
-				if (comarca.isCastell()) {
-					cavaller.addCastellConquerit();
-					LOG.info(cavaller + " ... ha ocupat un castell ");
-				}
-			}
-		}
-		return castellsOcupats;
-	}
+        for (Comarca comarca : comarques) {
+            if (comarca.ocupadaPer(cavaller)) {
+                if (comarca.isCastell()) {
+                    cavaller.addCastellConquerit();
+                    LOG.info(cavaller + " ... ha ocupat un castell ");
+                }
+            }
+        }
+        return castellsOcupats;
+    }
 
-	/**
-	 * Compta quants castells té el comte especificat
-	 * 
-	 * @param comte
-	 *            comte del que en volem comptar els castells
-	 * @return número de castells sota control del comte
-	 */
-	public int castellsSotaControlDelComte(Comte comte) {
-		int numCastells = 0;
-		for (Comarca castell : castells) {
-			if (castell != null && castell.isDelComte(comte)) {
-				numCastells++;
-			}
-		}
-		return numCastells;
-	}
+    /**
+     * Compta quants castells té el comte especificat
+     *
+     * @param comte
+     *            comte del que en volem comptar els castells
+     * @return número de castells sota control del comte
+     */
+    public int castellsSotaControlDelComte(Comte comte) {
+        int numCastells = 0;
+        for (Comarca castell : castells) {
+            if (castell != null && castell.isDelComte(comte)) {
+                numCastells++;
+            }
+        }
+        return numCastells;
+    }
 
-	/**
-	 * Obtenir un castell de forma aleatòria.
-	 * 
-	 * @return posició del castell
-	 */
-	private int getRandomCastell() {
+    /**
+     * Obtenir un castell de forma aleatòria.
+     *
+     * @return posició del castell
+     */
+    private int getRandomCastell() {
 
-		if (castells.size() > 0) {
+        if (!castells.isEmpty()) {
 
-			int castellTriat = aleatori.nextInt(castells.size());
-			return castellTriat;
-		}
-		return -1;
-	}
+            int castellTriat = aleatori.nextInt(castells.size());
+            return castellTriat;
+        }
+        return -1;
+    }
 
-	/**
-	 * Busca un castell que no estigui ocupat per cap compte.
-	 * 
-	 * @return castell no ocupat
-	 */
-	public GRectangle getRandomCastellNoOcupat() {
+    /**
+     * Busca un castell que no estigui ocupat per cap comte.
+     *
+     * @return castell no ocupat
+     */
+    public GRectangle getRandomCastellNoOcupat() {
 
-		int quinCastell = getRandomCastell();
-		if (quinCastell == -1) {
-			return null;
-		}
-		LOG.info("... Provar si el castell " + quinCastell + " està lliure");
-		Comarca castell = castells.get(quinCastell);
+        int quinCastell = getRandomCastell();
+        if (quinCastell == -1) {
+            return null;
+        }
+        LOG.finer("... Provar castell " + quinCastell);
+        Comarca castell = castells.get(quinCastell);
 
-		while (castell.isOcupada()) {
-			quinCastell = getRandomCastell();
-			LOG.info("... Provar si el castell " + quinCastell + " està lliure");
-			castell = castells.get(quinCastell);
-		}
-		LOG.info("CASTELL " + quinCastell + " lliure!");
-		return castell.getPosicio();
-	}
+        while (castell.isOcupada()) {
+            quinCastell = getRandomCastell();
+            LOG.finer("... Provar castell " + quinCastell);
+            castell = castells.get(quinCastell);
+        }
 
-	/**
-	 * Obtenir un castell que no estigui conquerit pel comte.
-	 * 
-	 * @param comte
-	 *            Compte del que no volem el castell.
-	 * @return Retorna la posició del castell
-	 */
-	public GRectangle getRandomCastellNoPropi(Comte comte) {
+        LOG.fine("CASTELL " + quinCastell + " lliure!");
+        return castell.getPosicio();
+    }
 
-		int quinCastell = getRandomCastell();
-		if (quinCastell == -1) {
-			return null;
-		}
+    /**
+     * Obtenir un castell que no estigui conquerit pel comte.
+     *
+     * @param comte
+     *            Comte del que no volem el castell.
+     * @return Retorna la posició del castell
+     */
+    public GRectangle getRandomCastellNoPropi(Comte comte) {
 
-		Comarca castell = castells.get(quinCastell);
-		while (castell.isDelComte(comte)) {
-			quinCastell = getRandomCastell();
-			castell = castells.get(quinCastell);
-		}
+        int quinCastell = getRandomCastell();
+        if (quinCastell == -1) {
+            return null;
+        }
+        LOG.finer("... Provar si el castell és del comte " + quinCastell);
+        Comarca castell = castells.get(quinCastell);
+        while (castell.isDelComte(comte)) {
+            quinCastell = getRandomCastell();
+            LOG.finer("... Provar si el castell és del comte " + quinCastell);
+            castell = castells.get(quinCastell);
+        }
 
-		LOG.info("Atacar el CASTELL " + quinCastell);
-		return castell.getPosicio();
-	}
+        LOG.info("Atacar el CASTELL " + quinCastell);
+        return castell.getPosicio();
+    }
 
-	/**
-	 * Bucle principal del joc.
-	 * 
-	 * @throws InterruptedException
-	 */
-	public void start() throws InterruptedException {
-		boolean acabar = false;
-		
-		while (!acabar) {
-			for (Comte comte : comtes) {
+    /**
+     * Bucle principal del joc.
+     *
+     * @throws InterruptedException
+     */
+    public void start() throws InterruptedException {
+        boolean acabar = false;
 
-				moureCavallersDelCompte(comte);
-				if (castellsSotaControlDelComte(comte) == castells.size()) {
-					acabar = true;
-					break;
-				}
-			}
-			Thread.sleep(200);
-		}
-	}
+        while (!acabar) {
+            for (Comte comte : comtes) {
 
-	/**
-	 * Mou tots els cavallers d'un compte determinat.
-	 * 
-	 * - Si ha arribat a un castell o sembla que se'n va de la pantalla li
-	 * assigna un nou destí
-	 * 
-	 * @param comte
-	 *            Compte del que es mouen els cavallers
-	 */
-	private void moureCavallersDelCompte(Comte comte) {
-		for (Cavaller cavaller : comte.getCavallers()) {
+                moureCavallersDelComte(comte);
+                if (castellsSotaControlDelComte(comte) == castells.size()) {
+                    LOG.info("Ja tenim nou rei! El " + comte.getNom() + "!");
+                    acabar = true;
+                    break;
+                }
+            }
+            Thread.sleep(200);
+        }
 
-			if (!cavaller.isMort()) {
-				if (!cavaller.mou() || !foraDeRegio(cavaller)) {
-					buscarNouDesti(cavaller);
-				}
-				// Comprovar si toca batallar
-				// BATALLA
-				comprovarCavallersEnemics(cavaller);
-			}
-		}
-		ferConquestesDelCompte(comte);
-	}
+    }
 
-	/**
-	 * Comprova si el cavaller ha de lluitar amb algú.
-	 * 
-	 * @param cavallerActual
-	 *            cavaller que es comprova
-	 */
-	private void comprovarCavallersEnemics(Cavaller cavallerActual) {
-		for (Comte comte : comtes) {
-			if (comte != cavallerActual.getComte()) {
-				for (Cavaller cavaller : comte.getCavallers()) {
-					if (!cavaller.isMort() && cavaller.estaAProp(cavallerActual)) {
-						// Matar-ne un
-						batalla(cavallerActual, cavaller);
-					}
-				}
-			}
-		}
-	}
+    /**
+     * Mou tots els cavallers d'un comte determinat.
+     *
+     * - Si ha arribat a un castell o sembla que se'n va de la pantalla li
+     * assigna un nou destí
+     *
+     * @param comte
+     *            Comte del que es mouen els cavallers
+     */
+    private void moureCavallersDelComte(Comte comte) {
+        for (Cavaller cavaller : comte.getCavallers()) {
 
-	private void batalla(Cavaller cavallerActual, Cavaller cavaller) {
-		LOG.info("BATALLA!");
-		int primer = comarquesSotaControlDelCavaller(cavallerActual);
-		int segon = comarquesSotaControlDelCavaller(cavaller);
-		
-		int suma = primer + segon;
-		
-		// Peta quan hi ha batalla i no tenen territoris
-		if(suma == 0) { 
-			suma++;
-		}
- 
-		int resultat = aleatori.nextInt(suma);
+            if (!cavaller.isMort()) {
 
-		if (resultat > primer) {
-			cavallerActual.setMort();
-		} else {
-			cavaller.setMort();
-		}
-	}
+                if (!cavaller.mou() || !foraDeRegio(cavaller)) {
+                    LOG.finer("... Cercar nou destí pel " + cavaller);
+                    buscarNouDesti(cavaller);
+                }
 
-	/**
-	 * Compta les comarques sota control d'un determinat cavaller.
-	 * 
-	 * @param cavaller
-	 *            Cavaller a comprovar
-	 */
-	public int comarquesSotaControlDelCavaller(Cavaller cavaller) {
+                comprovarCavallersEnemics(cavaller);
+            }
+        }
+        ferConquestesDelComte(comte);
+    }
 
-		int comarquesSotaControl = 0;
+    /**
+     * Comprova si el cavaller ha de lluitar amb algú.
+     *
+     * @param cavallerActual
+     *            cavaller que es comprova
+     */
+    private void comprovarCavallersEnemics(Cavaller cavallerActual) {
+        for (Comte comte : comtes) {
+            if (comte != cavallerActual.getComte()) {
+                for (Cavaller cavaller : comte.getCavallers()) {
+                    if (!cavaller.isMort() && cavaller.estaAProp(cavallerActual)) {
+                        // Matar-ne un
+                        batalla(cavallerActual, cavaller);
+                    }
+                }
+            }
+        }
+    }
 
-		for (Comarca comarca : comarques) {
-			if (comarca.isDelCavaller(cavaller)) {
-				comarquesSotaControl++;
-			}
-		}
-		return comarquesSotaControl;
-	}
+    private void batalla(Cavaller cavallerActual, Cavaller cavaller) {
 
-	/**
-	 * Comprovar si un cavaller se n'està anant de la regió (COVARD!).
-	 *
-	 * @param cavaller
-	 *            cavaller que comprovem
-	 * @return Diu si el cavaller està marxant
-	 */
-	private boolean foraDeRegio(Cavaller cavaller) {
-		GRectangle r = cavaller.getPosicio().intersection(rectanglePais);
-		return r.equals(cavaller.getPosicio());
-	}
+        int primer = comarquesSotaControlDelCavaller(cavallerActual);
+        int segon = comarquesSotaControlDelCavaller(cavaller);
 
-	/**
-	 * Ordena a un cavaller anar cap a un lloc (en principi només seran
-	 * castells).
-	 * 
-	 * @param cavaller
-	 *            cavaller al que se li dóna una ordre
-	 */
-	private void buscarNouDesti(Cavaller cavaller) {
+        LOG.info("BATALLA!" + cavallerActual + ":" + primer
+                + " vs " + cavaller + ":" + segon);
 
-		GRectangle nouDesti = getRandomCastellNoPropi(cavaller.getComte());
-		cavaller.setDesti(nouDesti);
-		LOG.info(" ... " + cavaller + " va a " + nouDesti);
-	}
+        int suma = primer + segon;
+
+        // Peta quan hi ha batalla i no tenen territoris
+        if(suma == 0) {
+            suma++;
+        }
+
+        int resultat = aleatori.nextInt(suma);
+
+        if (resultat > primer) {
+            cavallerActual.setMort();
+        } else {
+            cavaller.setMort();
+        }
+    }
+
+    /**
+     * Compta les comarques sota control d'un determinat cavaller.
+     *
+     * @param cavaller
+     *            Cavaller a comprovar
+     */
+    public int comarquesSotaControlDelCavaller(Cavaller cavaller) {
+
+        int comarquesSotaControl = 0;
+
+        for (Comarca comarca : comarques) {
+            if (comarca.isDelCavaller(cavaller)) {
+                comarquesSotaControl++;
+            }
+        }
+        return comarquesSotaControl;
+    }
+
+    /**
+     * Comprovar si un cavaller se n'està anant de la regió (COVARD!).
+     *
+     * @param cavaller
+     *            cavaller que comprovem
+     * @return Diu si el cavaller està marxant
+     */
+    private boolean foraDeRegio(Cavaller cavaller) {
+        GRectangle r = cavaller.getPosicio().intersection(rectanglePais);
+        return r.equals(cavaller.getPosicio());
+    }
+
+    /**
+     * Ordena a un cavaller anar cap a un lloc (en principi només seran
+     * castells).
+     *
+     * @param cavaller
+     *            cavaller al que se li dóna una ordre
+     */
+    private void buscarNouDesti(Cavaller cavaller) {
+
+        GRectangle nouDesti = getRandomCastellNoPropi(cavaller.getComte());
+        cavaller.setDesti(nouDesti);
+        LOG.fine(" ... " + cavaller + " va a " + nouDesti);
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return nom + ": " + comarques;
+    }
+
+
+
 }

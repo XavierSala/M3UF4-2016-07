@@ -9,6 +9,13 @@ import acm.graphics.GRectangle;
 import net.xaviersala.conqueridor.Cavaller;
 import net.xaviersala.conqueridor.Comte;
 
+/**
+ * Defineix el mapa del territori a partir d'una llista de
+ * comarques.
+ *
+ * @author xavier
+ *
+ */
 public class Mapa {
 
     static final Logger LOG = Logger.getLogger("Mapa");
@@ -65,6 +72,11 @@ public class Mapa {
         }
     }
 
+    /**
+     * Comprova quines conquestes han fet els cavallers del compte.
+     *
+     * @param comte compte a comprovar
+     */
     private void ferConquestesDelComte(Comte comte) {
         for (Cavaller cavaller : comte.getCavallers()) {
             if (!cavaller.isMort()) {
@@ -243,27 +255,35 @@ public class Mapa {
         }
     }
 
-    private void batalla(Cavaller cavallerActual, Cavaller cavaller) {
+    /**
+     * Batalla entre dos cavallers. La batalla es resol amb un número aleatòri però
+     * les possibilitats de victòria depenen de la quantitat de comarques que estiguin
+     * en poder d'aquest cavaller.
+     *
+     * @param primerCavaller primer cavaller
+     * @param segonCavaller segon cavaller
+     */
+    private void batalla(Cavaller primerCavaller, Cavaller segonCavaller) {
 
-        int primer = comarquesSotaControlDelCavaller(cavallerActual);
-        int segon = comarquesSotaControlDelCavaller(cavaller);
+        int comarquesPrimer = comarquesSotaControlDelCavaller(primerCavaller);
+        int comarquesSegon = comarquesSotaControlDelCavaller(segonCavaller);
 
-        LOG.info("BATALLA!" + cavallerActual + ":" + primer
-                + " vs " + cavaller + ":" + segon);
+        LOG.info("BATALLA!" + primerCavaller + ":" + comarquesPrimer
+                + " vs " + segonCavaller + ":" + comarquesSegon);
 
-        int suma = primer + segon;
+        int suma = comarquesPrimer + comarquesSegon;
 
-        // Peta quan hi ha batalla i no tenen territoris
+        // BUG: Peta quan hi ha batalla entre cavallers que no tenen territoris
         if(suma == 0) {
             suma++;
         }
 
         int resultat = aleatori.nextInt(suma);
 
-        if (resultat > primer) {
-            cavallerActual.setMort();
+        if (resultat > comarquesPrimer) {
+            primerCavaller.setMort();
         } else {
-            cavaller.setMort();
+            segonCavaller.setMort();
         }
     }
 

@@ -4,6 +4,12 @@ import java.awt.Color;
 import acm.graphics.GImage;
 import acm.graphics.GRectangle;
 
+/**
+ * Defineix un dels cavallers que ocupen territori.
+ *
+ * @author xavier
+ *
+ */
 public class Cavaller {
 
     private static final int VIDA = 1000;
@@ -21,6 +27,12 @@ public class Cavaller {
     private double angle;
     private boolean mort;
 
+    /**
+     * Crea un cavaller
+     * @param nom nom del cavaller
+     * @param imatge imatge del cavaller
+     * @param comte comte al que segueix el cavaller
+     */
     public Cavaller(String nom, GImage imatge, Comte comte) {
 
         this.nom = nom;
@@ -38,48 +50,46 @@ public class Cavaller {
     }
 
 
+    /**
+     * @return diu a quin comte segueix aquest cavaller
+     */
     public Comte getComte() {
         return comte;
     }
 
+    /**
+     * @return nom del cavaller
+     */
     public String getNom() {
         return nom;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
+    /**
+     * @return diu quants castells ha conquerit aquest cavaller
+     */
     public int getCastellsConquerits() {
         return castellsConquerits;
     }
 
-    public void setCastellsConquerits(int castellsConquerits) {
-        this.castellsConquerits = castellsConquerits;
-    }
-
+    /**
+     * El cavaller ha conquerit un castell més.
+     */
     public void addCastellConquerit() {
         this.castellsConquerits ++;
     }
 
-    public void removeCastellConquerit() {
-        this.castellsConquerits--;
-    }
-
+    /**
+     * @return color del cavaller
+     */
     public Color getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
+    /**
+     * @return vida del cavaller.
+     */
     public int getVida() {
         return vida;
-    }
-
-    public void setVida(int vida) {
-        this.vida = vida;
     }
 
     /**
@@ -128,27 +138,34 @@ public class Cavaller {
         return true;
     }
 
-
+    /**
+     * @return determina si el cavaller és viu o mort.
+     */
     public boolean isMort() {
         return mort;
     }
 
+    /**
+     * Mata el cavaller fent-lo desaparèixer i marcant-lo com a mort.
+     */
     public void setMort() {
         imatge.setVisible(false);
         mort = true;
+    }
+
+    /**
+     * Diu si el cavaller està a prop d'un altre cavaller.
+     * @param altreCavaller l'altre cavaller
+     * @return retorna si estan xocant
+     */
+    public boolean estaAProp(Cavaller altreCavaller) {
+        return imatge.getBounds().intersects(altreCavaller.getPosicio());
     }
 
     @Override
     public String toString() {
         return "Cavaller " + nom + ", (" + castellsConquerits + "," + vida + ")";
     }
-
-
-    public boolean estaAProp(Cavaller altreCavaller) {
-        return imatge.getBounds().intersects(altreCavaller.getPosicio());
-    }
-
-
 
 
 }

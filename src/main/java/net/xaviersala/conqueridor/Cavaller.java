@@ -64,12 +64,6 @@ public class Cavaller {
         return nom;
     }
 
-    /**
-     * @return diu quants castells ha conquerit aquest cavaller
-     */
-    public int getCastellsConquerits() {
-        return castellsConquerits;
-    }
 
     /**
      * El cavaller ha conquerit un castell més.
@@ -85,12 +79,6 @@ public class Cavaller {
         return color;
     }
 
-    /**
-     * @return vida del cavaller.
-     */
-    public int getVida() {
-        return vida;
-    }
 
     /**
      * Posar el cavaller en la posició que s'especifica.
@@ -121,6 +109,7 @@ public class Cavaller {
 
         double result = Math.toDegrees(Math.atan2(dy , dx));
         angle = (result < 0) ? (360d + result) : result;
+        System.out.println("angle: " + angle);
 
     }
 
@@ -164,7 +153,7 @@ public class Cavaller {
 
     @Override
     public String toString() {
-        return "Cavaller " + nom + ", (" + castellsConquerits + "," + vida + ")";
+        return "Cavaller " + getNom() + ", (" + castellsConquerits + "," + vida + ")";
     }
 
 

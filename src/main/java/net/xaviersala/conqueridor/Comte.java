@@ -74,13 +74,6 @@ public class Comte {
     }
 
     /**
-     * @return quin és el castell pairal del comte
-     */
-    public GRectangle getCasa() {
-        return casa;
-    }
-
-    /**
      * Col·loca els cavallers al castell pairal.
      */
     public void posaElsCavallersACasa() {

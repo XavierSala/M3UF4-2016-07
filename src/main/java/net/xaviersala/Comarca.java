@@ -46,44 +46,6 @@ public class Comarca {
     }
 
     /**
-     * @return retorna quin és el comte que domina la comarca.
-     */
-    public Comte deQuinComte() {
-        if (propietari == null) {
-            return null;
-        }
-        else {
-            return propietari.getComte();
-        }
-    }
-
-    /**
-     * Comprova si la posició d'un cavaller xoca amb la comarca.
-     *
-     * @param cavallerRect Rectangle que ocupa el cavaller.
-     * @return
-     */
-    public boolean xocaAmb(GRectangle cavallerRect) {
-        return rectangle.getBounds().intersects(cavallerRect);
-    }
-
-    /**
-     * @return Retorna quin és el cavaller que domina la comarca.
-     */
-    public Cavaller getCavaller() {
-        return propietari;
-    }
-
-    /**
-     * El cavaller domina la comarca.
-     *
-     * @param cavaller cavaller que la domina
-     */
-    public void setCavaller(Cavaller cavaller) {
-        this.propietari = cavaller;
-    }
-
-    /**
      * @return diu si la comarca té un castell o no
      */
     public boolean isCastell() {
@@ -106,7 +68,7 @@ public class Comarca {
      * @param cavaller cavaller que la ocupa
      * @return si ha estat ocupada o no
      */
-    public boolean ocupadaPer(Cavaller cavaller) {
+    public boolean intentaOcuparla(Cavaller cavaller) {
         if (cavaller == propietari) {
             return false;
         }
@@ -154,11 +116,5 @@ public class Comarca {
     public boolean isOcupada() {
         return propietari != null;
     }
-
-    @Override
-    public String toString() {
-        return "[ " + castell + "]";
-    }
-
 
 }

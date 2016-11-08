@@ -97,7 +97,7 @@ public class Mapa {
         int castellsOcupats = 0;
 
         for (Comarca comarca : comarques) {
-            if (comarca.ocupadaPer(cavaller) && comarca.isCastell()) {
+            if (comarca.intentaOcuparla(cavaller) && comarca.isCastell()) {
                     cavaller.addCastellConquerit();
                     LOG.info(cavaller + " ... ha ocupat un castell ");
 
@@ -338,14 +338,6 @@ public class Mapa {
         GRectangle nouDesti = getRandomCastellNoPropi(cavaller.getComte());
         cavaller.setDesti(nouDesti);
         LOG.fine(" ... " + cavaller + " va a " + nouDesti);
-    }
-
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return nom + ": " + comarques;
     }
 
 

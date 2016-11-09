@@ -192,20 +192,46 @@ public class Mapa {
      */
     public void start() throws InterruptedException {
         boolean acabar = false;
+        Comte guanyador = null;
 
         while (!acabar) {
+            int numeroDeComtes = 0;
             for (Comte comte : comtes) {
-
-                moureCavallersDelComte(comte);
-                if (castellsSotaControlDelComte(comte) == castells.size()) {
-                    LOG.info("Ja tenim nou rei! El " + comte.getNom() + "!");
-                    acabar = true;
-                    break;
+                if (!comte.isDerrotat()) {
+                    boolean estaViu = moureCavallersDelComte(comte);
+                    if (!estaViu) {
+                        comte.derrotat();
+                    }
+                    if (castellsSotaControlDelComte(comte) == castells.size()) {
+                        guanyador = comte;
+                        acabar = true;
+                        break;
+                    }
+                    numeroDeComtes++;
                 }
             }
+            // Si només queda un compte viu, és el guanyador
+            if (numeroDeComtes == 1) {
+                guanyador = buscaElComteGuanyador();
+                acabar = true;
+            }
+
             Thread.sleep(200);
         }
 
+        LOG.info("Ja tenim nou rei de " + nom + ": El " + guanyador.getNom() + "!");
+
+
+    }
+
+    // Cerca quin és el compte qeu no està mort
+    private Comte buscaElComteGuanyador() {
+        for(Comte comte: comtes) {
+            if (!comte.isDerrotat()) {
+                return comte;
+            }
+        }
+        return null;
     }
 
     /**
@@ -216,11 +242,15 @@ public class Mapa {
      *
      * @param comte
      *            Comte del que es mouen els cavallers
+     * @return
      */
-    private void moureCavallersDelComte(Comte comte) {
+    private boolean moureCavallersDelComte(Comte comte) {
+        boolean algunViu = false;
+
         for (Cavaller cavaller : comte.getCavallers()) {
 
             if (!cavaller.isMort()) {
+                algunViu = true;
 
                 if (!cavaller.mou() || !foraDeRegio(cavaller)) {
                     LOG.finer("... Cercar nou destí pel " + cavaller);
@@ -231,6 +261,7 @@ public class Mapa {
             }
         }
         ferConquestesDelComte(comte);
+        return algunViu;
     }
 
     /**

@@ -109,7 +109,6 @@ public class Cavaller {
 
         double result = Math.toDegrees(Math.atan2(dy , dx));
         angle = (result < 0) ? (360d + result) : result;
-        System.out.println("angle: " + angle);
 
     }
 

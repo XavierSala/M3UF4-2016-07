@@ -20,6 +20,7 @@ public class Comte {
     private Color color;
     private GRectangle casa;
     private RandomGenerator rgen = RandomGenerator.getInstance();
+    private boolean derrotat;
 
     /**
      * Crea un comte.
@@ -31,6 +32,7 @@ public class Comte {
         this.cara = imatge;
         cavallers = new ArrayList<>();
         color = rgen.nextColor();
+        derrotat = false;
     }
 
     /**
@@ -81,6 +83,15 @@ public class Comte {
             cavaller.setPosicio(casa);
             cavaller.setDesti(casa);
         }
+    }
+
+    public void derrotat() {
+        derrotat = true;
+
+    }
+
+    public boolean isDerrotat() {
+        return derrotat;
     }
 
     @Override

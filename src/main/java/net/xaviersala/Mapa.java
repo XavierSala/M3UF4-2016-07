@@ -17,7 +17,7 @@ import net.xaviersala.conqueridor.Comte;
  */
 public class Mapa {
 
-    static final Logger LOG = Logger.getLogger("Mapa");
+    private static final Logger LOG = Logger.getLogger("Mapa");
 
     private Random aleatori = new Random();
 

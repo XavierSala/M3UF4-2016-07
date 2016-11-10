@@ -24,7 +24,7 @@ import net.xaviersala.conqueridor.Comte;
  */
 public class App extends GraphicsProgram {
 
-    static final Logger LOG = Logger.getLogger("App");
+    private static final Logger LOG = Logger.getLogger("App");
 
     private static final long serialVersionUID = 1299094805237490891L;
     private static final int AMPLADAPANTALLA = 1024;

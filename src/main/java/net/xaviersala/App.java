@@ -42,8 +42,8 @@ public class App extends GraphicsProgram {
     /**
      * Característiques dels comtes.
      */
-    private static final int CAVALLERS_DEL_COMTE = 2;
     private static final String[] NOMS_DELS_COMTES = { "Hug", "Ramon", "Bernat", "Marimon", "Berenguer" };
+    private static final int CAVALLERS_DEL_COMTE = 8;
 
 
 
@@ -61,7 +61,8 @@ public class App extends GraphicsProgram {
         clicaPerComencar();
 
         try {
-            mapa.start();
+            String guanyador = mapa.start();
+            missatge(guanyador, "Helvetica-*-30");
         } catch (InterruptedException e) {
              LOG.severe(e.getMessage());
         }
@@ -141,12 +142,20 @@ public class App extends GraphicsProgram {
      * Clica per començar.
      */
     private void clicaPerComencar() {
-        GLabel label = new GLabel("Clica per començar");
+        GLabel label = missatge("Clica per començar", null);
+        waitForClick();
+        remove(label);
+    }
+
+    private GLabel missatge(String text, String format) {
+        GLabel label = new GLabel(text);
+        if (format != null) {
+            label.setFont(format);
+        }
         double x = (getWidth() - label.getWidth()) / 2;
         double y = (getHeight() + label.getAscent()) / 2;
         add(label, x, y);
-        waitForClick();
-        remove(label);
+        return label;
     }
 
 }

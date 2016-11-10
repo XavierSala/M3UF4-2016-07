@@ -117,4 +117,13 @@ public class Comarca {
         return propietari != null;
     }
 
+    /**
+     * Pinta el rectangle del color especificat.
+     *
+     * @param color color
+     */
+    public void setColor(Color color) {
+        rectangle.setFillColor(color);
+    }
+
 }

@@ -10,8 +10,7 @@ import net.xaviersala.conqueridor.Cavaller;
 import net.xaviersala.conqueridor.Comte;
 
 /**
- * Defineix el mapa del territori a partir d'una llista de
- * comarques.
+ * Defineix el mapa del territori a partir d'una llista de comarques.
  *
  * @author xavier
  *
@@ -75,7 +74,8 @@ public class Mapa {
     /**
      * Comprova quines conquestes han fet els cavallers del compte.
      *
-     * @param comte compte a comprovar
+     * @param comte
+     *            compte a comprovar
      */
     private void ferConquestesDelComte(Comte comte) {
         for (Cavaller cavaller : comte.getCavallers()) {
@@ -98,8 +98,8 @@ public class Mapa {
 
         for (Comarca comarca : comarques) {
             if (comarca.intentaOcuparla(cavaller) && comarca.isCastell()) {
-                    cavaller.addCastellConquerit();
-                    LOG.info(cavaller + " ... ha ocupat un castell ");
+                cavaller.addCastellConquerit();
+                LOG.info(cavaller + " ... ha ocupat un castell ");
 
             }
         }
@@ -190,7 +190,7 @@ public class Mapa {
      *
      * @throws InterruptedException
      */
-    public void start() throws InterruptedException {
+    public String start() throws InterruptedException {
         boolean acabar = false;
         Comte guanyador = null;
 
@@ -219,14 +219,17 @@ public class Mapa {
             Thread.sleep(200);
         }
 
+        for (Comarca casella : comarques) {
+            casella.setColor(guanyador.getColor());
+        }
+
         LOG.info("Ja tenim nou rei de " + nom + ": El " + guanyador.getNom() + "!");
-
-
+        return guanyador.getNom();
     }
 
     // Cerca quin és el compte qeu no està mort
     private Comte buscaElComteGuanyador() {
-        for(Comte comte: comtes) {
+        for (Comte comte : comtes) {
             if (!comte.isDerrotat()) {
                 return comte;
             }
@@ -281,8 +284,10 @@ public class Mapa {
     /**
      * Comprova si el cavaller té una batalla amb un del compte especificat.
      *
-     * @param cavallerActual cavaller actual
-     * @param comte compte del que es volen comprovar els cavallers
+     * @param cavallerActual
+     *            cavaller actual
+     * @param comte
+     *            compte del que es volen comprovar els cavallers
      */
     private void comprovaSiHiHaUnaBatalla(Cavaller cavallerActual, Comte comte) {
         for (Cavaller cavaller : comte.getCavallers()) {
@@ -294,25 +299,27 @@ public class Mapa {
     }
 
     /**
-     * Batalla entre dos cavallers. La batalla es resol amb un número aleatòri però
-     * les possibilitats de victòria depenen de la quantitat de comarques que estiguin
-     * en poder d'aquest cavaller.
+     * Batalla entre dos cavallers. La batalla es resol amb un número aleatòri
+     * però les possibilitats de victòria depenen de la quantitat de comarques
+     * que estiguin en poder d'aquest cavaller.
      *
-     * @param primerCavaller primer cavaller
-     * @param segonCavaller segon cavaller
+     * @param primerCavaller
+     *            primer cavaller
+     * @param segonCavaller
+     *            segon cavaller
      */
     private void batalla(Cavaller primerCavaller, Cavaller segonCavaller) {
 
         int comarquesPrimer = comarquesSotaControlDelCavaller(primerCavaller);
         int comarquesSegon = comarquesSotaControlDelCavaller(segonCavaller);
 
-        LOG.info("** BATALLA!" + primerCavaller + ":" + comarquesPrimer
-                + " vs " + segonCavaller + ":" + comarquesSegon);
+        LOG.info(
+                "** BATALLA!" + primerCavaller + ":" + comarquesPrimer + " vs " + segonCavaller + ":" + comarquesSegon);
 
         int suma = comarquesPrimer + comarquesSegon;
 
         // BUG: Peta quan hi ha batalla entre cavallers que no tenen territoris
-        if(suma == 0) {
+        if (suma == 0) {
             suma++;
         }
 
@@ -370,7 +377,5 @@ public class Mapa {
         cavaller.setDesti(nouDesti);
         LOG.fine(" ... " + cavaller + " va a " + nouDesti);
     }
-
-
 
 }

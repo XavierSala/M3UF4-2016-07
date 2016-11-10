@@ -3,7 +3,6 @@ package net.xaviersala.conqueridor;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import acm.graphics.GImage;
 import acm.graphics.GRectangle;
 import acm.util.RandomGenerator;
 
@@ -15,7 +14,6 @@ import acm.util.RandomGenerator;
  */
 public class Comte {
     private String nom;
-    private GImage cara;
     private List<Cavaller> cavallers;
     private Color color;
     private GRectangle casa;
@@ -27,9 +25,8 @@ public class Comte {
      * @param nom nom del comte
      * @param imatge imatge del comte
      */
-    public Comte(String nom, GImage imatge) {
+    public Comte(String nom) {
         this.nom = nom;
-        this.cara = imatge;
         cavallers = new ArrayList<>();
         color = rgen.nextColor();
         derrotat = false;

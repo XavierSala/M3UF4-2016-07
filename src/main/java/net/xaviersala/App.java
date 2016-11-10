@@ -65,6 +65,7 @@ public class App extends GraphicsProgram {
             missatge(guanyador, "Helvetica-*-30");
         } catch (InterruptedException e) {
              LOG.severe(e.getMessage());
+             Thread.currentThread().interrupt();
         }
     }
 
@@ -77,9 +78,7 @@ public class App extends GraphicsProgram {
         List<Comte> comptes = new ArrayList<>();
         for (String nom : NOMS_DELS_COMTES) {
 
-            // TODO: Carregar imatge del compte
-            GImage imatgeComte = null;
-            Comte comte = new Comte(nom, imatgeComte);
+            Comte comte = new Comte(nom);
 
             for (int i = 0; i < CAVALLERS_DEL_COMTE; i++) {
                 GImage imatgeCavaller = new GImage("cavaller.png");

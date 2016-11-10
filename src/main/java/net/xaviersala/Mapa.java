@@ -181,7 +181,7 @@ public class Mapa {
             castell = castells.get(quinCastell);
         }
 
-        LOG.info("Atacar el castell " + quinCastell);
+        LOG.fine("Atacar el castell " + quinCastell);
         return castell.getPosicio();
     }
 
@@ -191,40 +191,55 @@ public class Mapa {
      * @throws InterruptedException
      */
     public String start() throws InterruptedException {
-        boolean acabar = false;
         Comte guanyador = null;
 
-        while (!acabar) {
-            int numeroDeComtes = 0;
-            for (Comte comte : comtes) {
-                if (!comte.isDerrotat()) {
-                    boolean estaViu = moureCavallersDelComte(comte);
-                    if (!estaViu) {
-                        comte.derrotat();
-                    }
-                    if (castellsSotaControlDelComte(comte) == castells.size()) {
-                        guanyador = comte;
-                        acabar = true;
-                        break;
-                    }
-                    numeroDeComtes++;
-                }
-            }
-            // Si només queda un compte viu, és el guanyador
-            if (numeroDeComtes == 1) {
-                guanyador = buscaElComteGuanyador();
-                acabar = true;
-            }
-
-            Thread.sleep(200);
+        while (guanyador == null) {
+            guanyador = moureComtes();
+            Thread.sleep(150);
         }
 
-        for (Comarca casella : comarques) {
-            casella.setColor(guanyador.getColor());
-        }
+        dominaTotesLesComarques(guanyador);
 
         LOG.info("Ja tenim nou rei de " + nom + ": El " + guanyador.getNom() + "!");
         return guanyador.getNom();
+    }
+
+    /**
+     * El compte definit domina totes les comarques.
+     *
+     * @param guanyador Compte que dominarà totes les caselles
+     */
+    private void dominaTotesLesComarques(Comte guanyador) {
+        for (Comarca casella : comarques) {
+            casella.setColor(guanyador.getColor());
+        }
+    }
+
+    /**
+     * Moure tots els comptes per veure si hi ha algun guanyador.
+     *
+     * @return El compte guanyador o null si no ha guanyat ningú
+     */
+    private Comte moureComtes() {
+        int numeroDeComtes = 0;
+        for (Comte comte : comtes) {
+            if (!comte.isDerrotat()) {
+                boolean estaViu = moureCavallersDelComte(comte);
+                if (!estaViu) {
+                    comte.derrotat();
+                }
+                // Si el compte control·la tots els castells ha guanyat
+                if (castellsSotaControlDelComte(comte) == castells.size()) {
+                    return comte;
+                }
+                numeroDeComtes++;
+            }
+        }
+        // Si només queda un compte viu, és el guanyador
+        if (numeroDeComtes == 1) {
+            return buscaElComteGuanyador();
+        }
+        return null;
     }
 
     // Cerca quin és el compte qeu no està mort

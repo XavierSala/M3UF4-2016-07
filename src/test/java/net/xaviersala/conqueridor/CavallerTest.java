@@ -28,19 +28,23 @@ public class CavallerTest {
 
 
     @Mock
-    Comte delComte;
+    private Comte delComte;
 
     @Mock
-    GImage imatge;
+    private GImage imatge;
 
     @Mock
-    GImage imatge2;
+    private GImage imatge2;
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    Cavaller cavaller;
+    private Cavaller cavaller;
 
+    /**
+     * Crea l'objecte de proves.
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
 

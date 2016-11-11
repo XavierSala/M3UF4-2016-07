@@ -20,15 +20,15 @@ public class ComteTest {
     private static final GRectangle CASA = new GRectangle(10,10,10,10);
 
     @Mock
-    Cavaller  cavaller;
+    private Cavaller  cavaller;
 
     @Mock
-    Cavaller cavaller2;
+    private Cavaller cavaller2;
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    Comte comte;
+    private Comte comte;
 
     @Before
     public void setUp() throws Exception {

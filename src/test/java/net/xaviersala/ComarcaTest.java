@@ -24,24 +24,25 @@ public class ComarcaTest {
     private static final GRectangle CASELLA2 = new GRectangle(60,60,10,10);
 
     @Mock
-    Cavaller cavaller;
-    @Mock
-    Cavaller cavaller2;
+    private Cavaller cavaller;
 
     @Mock
-    GRect rectangle;
+    private Cavaller cavaller2;
 
     @Mock
-    GImage imatgeCastell;
+    private GRect rectangle;
 
     @Mock
-    Comte comte;
+    private GImage imatgeCastell;
+
+    @Mock
+    private Comte comte;
 
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    Comarca comarca;
-    Comarca castell;
+    private Comarca comarca;
+    private Comarca castell;
 
     @Before
     public void setUp() throws Exception {

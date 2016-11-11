@@ -93,7 +93,7 @@ public class Mapa {
      *            cavaller conqueridor
      * @return Número de castells conquerits en aquesta passada
      */
-    public int cavallerConquereix(Cavaller cavaller) {
+    private int cavallerConquereix(Cavaller cavaller) {
         int castellsOcupats = 0;
 
         for (Comarca comarca : comarques) {
@@ -113,7 +113,7 @@ public class Mapa {
      *            comte del que en volem comptar els castells
      * @return número de castells sota control del comte
      */
-    public int castellsSotaControlDelComte(Comte comte) {
+    private int castellsSotaControlDelComte(Comte comte) {
         int numCastells = 0;
         for (Comarca castell : castells) {
             if (castell != null && castell.isDelComte(comte)) {
@@ -141,7 +141,7 @@ public class Mapa {
      *
      * @return castell no ocupat
      */
-    public GRectangle getRandomCastellNoOcupat() {
+    private GRectangle getRandomCastellNoOcupat() {
 
         int quinCastell = getRandomCastell();
         if (quinCastell == -1) {
@@ -167,7 +167,7 @@ public class Mapa {
      *            Comte del que no volem el castell.
      * @return Retorna la posició del castell
      */
-    public GRectangle getRandomCastellNoPropi(Comte comte) {
+    private GRectangle getRandomCastellNoPropi(Comte comte) {
 
         int quinCastell = getRandomCastell();
         if (quinCastell == -1) {
@@ -355,7 +355,7 @@ public class Mapa {
      * @param cavaller
      *            Cavaller a comprovar
      */
-    public int comarquesSotaControlDelCavaller(Cavaller cavaller) {
+    private int comarquesSotaControlDelCavaller(Cavaller cavaller) {
 
         int comarquesSotaControl = 0;
 

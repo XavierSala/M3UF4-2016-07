@@ -6,13 +6,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-
 import static org.mockito.Mockito.*;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import acm.graphics.GImage;
 import acm.graphics.GRectangle;
 
 public class ComteTest {
@@ -67,7 +64,7 @@ public class ComteTest {
     public void testMataComte() {
 
         // Neix no derrotat
-        assertTrue("El comte ha de neixer no derrotat", !comte.isDerrotat());
+        assertFalse("El comte ha de neixer no derrotat", comte.isDerrotat());
 
         // Derrotem el comte
         comte.derrotat();
@@ -91,5 +88,6 @@ public class ComteTest {
         verify(cavaller).setDesti(CASA);
         verify(cavaller2).setPosicio(CASA);
         verify(cavaller2).setDesti(CASA);
+
     }
 }

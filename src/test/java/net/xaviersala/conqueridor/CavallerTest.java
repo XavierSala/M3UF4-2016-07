@@ -84,7 +84,7 @@ public class CavallerTest {
     @Test
     public void testSiEsMor() {
 
-        assertTrue("El cavaller ha de crear-se viu", !cavaller.isMort());
+        assertFalse("El cavaller ha de crear-se viu", cavaller.isMort());
 
         cavaller.setMort();
 
@@ -108,7 +108,7 @@ public class CavallerTest {
            .thenReturn(FORA);
 
         assertTrue(cavaller.estaAProp(cavaller2));
-        assertTrue(!cavaller.estaAProp(cavaller2));
+        assertFalse(cavaller.estaAProp(cavaller2));
 
     }
 
@@ -131,7 +131,7 @@ public class CavallerTest {
         cavaller.setDesti(CASA);
 
         // No s'ha de moure
-        assertTrue(!cavaller.mou());
+        assertFalse(cavaller.mou());
 
         // No s'ha de moure però la posa al destí
         cavaller.setDesti(XOCA);
@@ -144,8 +144,7 @@ public class CavallerTest {
 
         cavaller.setDesti(FORA2);
         assertTrue(cavaller.mou());
-        verify(imatge, times(2)).movePolar(Mockito.anyDouble(),
-                Mockito.anyDouble());
+        verify(imatge, times(2)).movePolar(anyDouble(), anyDouble());
 
     }
 

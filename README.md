@@ -47,3 +47,7 @@ Creeu en Java un programa que permeti veure com transcorre la lluita pel regnat 
 
 * Es pot fer que un jugador pugui control·lar els cavallers d'un dels comptes definint cap a on han d'anar
     * Clic sobre el cavaller i clic a on ha d'anar i el cavaller s'hi dirigirà (el destí sempre serà el mig de la casella on s'ha clicat)
+
+### Exemple de funcionament
+
+[![Vídeo](imatges/video.png)](https://youtu.be/_QU-LyPIezM)

@@ -104,12 +104,11 @@ public class Cavaller {
      */
     public void setDesti(GRectangle on) {
         desti = on;
-        double dx = (desti.getX() - desti.getWidth()*0.5) - (imatge.getX() + imatge.getWidth()*0.5);
-        double dy = (imatge.getY() - imatge.getHeight()*0.5) - (desti.getY() + desti.getHeight()*0.5);
+        double dx = (desti.getX() + desti.getWidth()*0.5) - (imatge.getX() + imatge.getWidth()*0.5);
+        double dy = (imatge.getY() + imatge.getHeight()*0.5) - (desti.getY() + desti.getHeight()*0.5);
 
         double result = Math.toDegrees(Math.atan2(dy , dx));
         angle = (result < 0) ? (360d + result) : result;
-        System.out.println("angle: " + angle);
 
     }
 

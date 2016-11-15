@@ -19,12 +19,12 @@ import net.xaviersala.conqueridor.Comte;
  */
 public class Comarca {
 
-    GRect rectangle;
+    private GRect rectangle;
 
-    GImage imatgeCastell;
-    boolean castell;
+    private GImage imatgeCastell;
+    private boolean castell;
 
-    Cavaller propietari;
+    private Cavaller propietari;
 
     /**
      * Crea una comarca en les posicions del rectangle
@@ -115,6 +115,15 @@ public class Comarca {
      */
     public boolean isOcupada() {
         return propietari != null;
+    }
+
+    /**
+     * Pinta el rectangle del color especificat.
+     *
+     * @param color color
+     */
+    public void setColor(Color color) {
+        rectangle.setFillColor(color);
     }
 
 }

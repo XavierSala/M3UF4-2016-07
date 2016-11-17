@@ -133,7 +133,7 @@ public class CavallerTest {
 
         // No s'ha de moure però la posa al destí
         cavaller.setDesti(XOCA);
-        assertTrue(!cavaller.mou());
+        assertFalse(cavaller.mou());
         verify(imatge).setLocation(XOCA.getX(),XOCA.getY());
 
         // Si que s'ha de moure...

@@ -1,3 +1,5 @@
+#FpExperiencies #DawMp03Uf04 #Programació
+
 Las conquesta de Quadrilàndia
 -------------------------------
 S’ha mort el rei de Quadrilandia i tots els cavallers de la contrada tenen intenció de ocupar el lloc vacant. Són temps de guerra…

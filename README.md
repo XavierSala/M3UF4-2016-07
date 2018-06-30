@@ -1,4 +1,4 @@
-#FpExperiencies #DawMp03Uf04 #Programació
+#FpInfor #DawMp03Uf04 #Programació
 
 Las conquesta de Quadrilàndia
 -------------------------------
